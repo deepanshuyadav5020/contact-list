@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/Registration" element={<RegistrationForm/>}/>
         <Route path='/account/:accountNo' element={<AccountDetails/>}/>
-        <Route path='/AccountRegistration' element={<AccountForm/>}/>
+        <Route path='/AccountRegistration/:contactId' element={<AccountForm/>}/>
         {/* <Route path='/DeleteAccount' element={<Delete/>}/> */}
       </Routes>
     </div>

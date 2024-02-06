@@ -9,11 +9,11 @@ const AllContacts = () => {
   const [contacts, setContacts] = useState([]); // state to hold each contact
   const [modal, setModal] = useState(false);
   const [updatedContact, setUpdatedContact] = useState({
-    id: null,
+    id: "",
     firstName: "",
     lastName: "",
     mobile: "",
-    email: "",
+    // email: "",
     accountNo: "",
   });
 
@@ -34,14 +34,16 @@ const AllContacts = () => {
 
   const handleUpdateContact = async (contactId) => {
     console.log(contactId);
+    debugger
     try {
       await axios.put(
         `http://localhost:8080/api/contact/${contactId}`,
-        updatedContact
+        [updatedContact]
       );
       setContacts((prevContacts) =>
         prevContacts.map((contact) =>
-          contactId === updatedContact.id ? updatedContact : contact
+          contactId === contact.id ? updatedContact : contact
+
         )
       );
       setModal(false); // Close the modal after updating
@@ -74,7 +76,7 @@ const AllContacts = () => {
       firstName: contact.firstName,
       lastName: contact.lastName,
       mobile: contact.mobile,
-      email: contact.email,
+      // email: contact.email,
       accountNo: contact.accountNo,
     });
     setModal(true);
@@ -86,9 +88,7 @@ const AllContacts = () => {
       <Link to="/Registration">
         <button className="btn-donate">Add New Contact</button>
       </Link>
-      <Link to="/AccountRegistration">
-        <button className="btn-donate">Add New Account</button>
-      </Link>
+
       <table className="table table-bordered table-striped">
         <thead>
           <tr>
@@ -112,6 +112,7 @@ const AllContacts = () => {
                 <Link to={`/account/${contact.accountNo}`}>
                   {contact.accountNo}
                 </Link>
+
                 <td>
                   <button onClick={() => handleDeleteContact(contact.id)}>
                     Delete
@@ -120,11 +121,16 @@ const AllContacts = () => {
                 <td>
                   <button onClick={() => openModal(contact)}>Update</button>
                 </td>
+                <td>
+                <Link to={`/AccountRegistration/${contact.id}`}>
+                    <button className="btn-donate">Add New Account</button>
+                  </Link>
+                </td>
               </tr>
             ))}
-          {modal &&  (
-            <div className="modal">
-              <div className="modal-content">
+          {modal && (
+            <div className="">
+              <div className="">
                 <span className="close" onClick={() => setModal(false)}>
                   &times;
                 </span>
@@ -140,7 +146,18 @@ const AllContacts = () => {
                     })
                   }
                 />
-                <label>Email:</label>
+                <label>Last Name:</label>
+                <input
+                  type="text"
+                  value={updatedContact.lastName}
+                  onChange={(e) =>
+                    setUpdatedContact({
+                      ...updatedContact,
+                      lastName: e.target.value,
+                    })
+                  }
+                />
+                {/* <label>Email:</label>
                 <input
                   type="email"
                   value={updatedContact.email}
@@ -150,7 +167,7 @@ const AllContacts = () => {
                       email: e.target.value,
                     })
                   }
-                />
+                /> */}
                 <label>Phone Number:</label>
                 <input
                   type="mobile"
